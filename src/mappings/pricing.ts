@@ -10,23 +10,24 @@ const USDT_WBNB_PAIR = '0x8b05b8320565c18e085b13754b2b2e3b9eb5ce69' // created b
 
 export function getBnbPriceInUSD(): BigDecimal {
   // fetch eth prices for each stablecoin
-  let daiPair = null // dai is token0, disabled for no big liquidity
+  // let daiPair = null // dai is token0, disabled for no big liquidity
   let busdPair = Pair.load(BUSD_WBNB_PAIR) // usdc is token0
   let usdtPair = Pair.load(USDT_WBNB_PAIR) // usdt is token1
 
   // all 3 have been created
   // Disabled for no BNB/DAI Pair
-  if (daiPair !== null && busdPair !== null && usdtPair !== null) {
-    let totalLiquidityETH = daiPair.reserve1.plus(busdPair.reserve1).plus(usdtPair.reserve0)
-    let daiWeight = daiPair.reserve1.div(totalLiquidityETH)
-    let usdcWeight = busdPair.reserve1.div(totalLiquidityETH)
-    let usdtWeight = usdtPair.reserve0.div(totalLiquidityETH)
-    return daiPair.token0Price
-      .times(daiWeight)
-      .plus(busdPair.token0Price.times(usdcWeight))
-      .plus(usdtPair.token1Price.times(usdtWeight))
-    // dai and USDC have been created
-  } else if (usdtPair !== null && busdPair !== null) {
+  // if (daiPair !== null && busdPair !== null && usdtPair !== null) {
+  //   let totalLiquidityETH = daiPair.reserve1.plus(busdPair.reserve1).plus(usdtPair.reserve0)
+  //   let daiWeight = daiPair.reserve1.div(totalLiquidityETH)
+  //   let usdcWeight = busdPair.reserve1.div(totalLiquidityETH)
+  //   let usdtWeight = usdtPair.reserve0.div(totalLiquidityETH)
+  //   return daiPair.token0Price
+  //     .times(daiWeight)
+  //     .plus(busdPair.token0Price.times(usdcWeight))
+  //     .plus(usdtPair.token1Price.times(usdtWeight))
+  //   // dai and USDC have been created
+  // } else 
+  if (usdtPair !== null && busdPair !== null) {
     let totalLiquidityETH = usdtPair.reserve1.plus(busdPair.reserve1)
     let daiWeight = usdtPair.reserve1.div(totalLiquidityETH)
     let usdcWeight = busdPair.reserve1.div(totalLiquidityETH)
@@ -43,15 +44,16 @@ export function getBnbPriceInUSD(): BigDecimal {
 let WHITELIST: string[] = [
   '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', // WBNB
   '0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3', // Binance Peg DAI
+  '0x2170ed0880ac9a755fd29b2688956bd959f933f8', // Binance Peg ETH
   '0xe9e7cea3dedca5984780bafc599bd69add087d56', // Binance Peg BUSD
   '0x55d398326f99059ff775485246999027b3197955', // Binance Peg USDT
 ]
 
 // minimum liquidity required to count towards tracked volume for pairs with small # of Lps
-let MINIMUM_USD_THRESHOLD_NEW_PAIRS = BigDecimal.fromString('400000')
+let MINIMUM_USD_THRESHOLD_NEW_PAIRS = BigDecimal.fromString('1')
 
 // minimum liquidity for price to get tracked
-let MINIMUM_LIQUIDITY_THRESHOLD_ETH = BigDecimal.fromString('2')
+let MINIMUM_LIQUIDITY_THRESHOLD_ETH = BigDecimal.fromString('1')
 
 /**
  * Search through graph to find derived Eth per token.

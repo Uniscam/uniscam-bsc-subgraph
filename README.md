@@ -17,6 +17,15 @@ yarn # 安装依赖
 yarn codegen # 生成 types
 ```
 
+## How to start Graph Node?
+
+```bash
+cargo run -p graph-node --release -- \
+  --postgres-url postgresql://[YOUR_PG_USER_NAME]@[PQ_SQL_PASSWORD]localhost:5432/graph-node \
+  --ethereum-rpc 56:https://bsc-dataseed.binance.org\
+  --ipfs 127.0.0.1:5001
+```
+
 ## Running Locally
 
 Make sure to update package.json settings to point to your own graph account.
