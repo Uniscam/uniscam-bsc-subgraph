@@ -10,6 +10,13 @@ This subgraph dynamically tracks any pair created by the uniswap factory. It tra
 - data on liquidity providers
 - historical data on Uniswap, pairs or tokens, aggregated by day
 
+## Setup
+
+```bash
+yarn # 安装依赖
+yarn codegen # 生成 types
+```
+
 ## Running Locally
 
 Make sure to update package.json settings to point to your own graph account.
