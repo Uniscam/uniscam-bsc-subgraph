@@ -24,15 +24,15 @@ export function getBnbPriceInUSD(): BigDecimal {
     let usdtWeight = usdtPair.reserve1.div(totalLiquidityETH)
     return daiPair.token0Price
       .times(daiWeight)
-      .plus(busdPair.token0Price.times(usdcWeight))
-      .plus(usdtPair.token1Price.times(usdtWeight))
+      .plus(busdPair.token1Price.times(usdcWeight))
+      .plus(usdtPair.token0Price.times(usdtWeight))
     // dai and USDC have been created
   } else 
   if (usdtPair !== null && busdPair !== null) {
     let totalLiquidityETH = usdtPair.reserve1.plus(busdPair.reserve0)
-    let daiWeight = usdtPair.reserve1.div(totalLiquidityETH)
+    let usdtWeight = usdtPair.reserve1.div(totalLiquidityETH)
     let usdcWeight = busdPair.reserve0.div(totalLiquidityETH)
-    return usdtPair.token0Price.times(daiWeight).plus(busdPair.token0Price.times(usdcWeight))
+    return usdtPair.token0Price.times(usdtWeight).plus(busdPair.token1Price.times(usdcWeight))
     // USDC is the only pair so far
   } else if (busdPair !== null) {
     return busdPair.token0Price
