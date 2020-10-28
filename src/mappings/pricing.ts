@@ -3,7 +3,7 @@ import { Pair, Token, Bundle } from '../types/schema'
 import { BigDecimal, Address, BigInt } from '@graphprotocol/graph-ts/index'
 import { ZERO_BD, factoryContract, ADDRESS_ZERO, ONE_BD } from './helpers'
 
-const WBNB_ADDRESS = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
+const WBNB_ADDRESS = '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c'
 const BUSD_WBNB_PAIR = '0xe58f66ff94ddd41ce62c2e8624c2a441405342d5' // replaced USDC, created 1282680
 const DAI_WBNB_PAIR = '0xc7465f6fe2ef6f97a82fffb290f4b695a5c349d4' // created block 1733370
 const USDT_WBNB_PAIR = '0x8b05b8320565c18e085b13754b2b2e3b9eb5ce69' // created block 1282483
@@ -43,7 +43,7 @@ export function getBnbPriceInUSD(): BigDecimal {
 
 // token where amounts should contribute to tracked volume and liquidity
 let WHITELIST: string[] = [
-  '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', // WBNB
+  '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c', // WBNB
   '0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3', // Binance Peg DAI
   '0x2170ed0880ac9a755fd29b2688956bd959f933f8', // Binance Peg ETH
   '0xe9e7cea3dedca5984780bafc599bd69add087d56', // Binance Peg BUSD
