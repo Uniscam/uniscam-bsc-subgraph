@@ -5,32 +5,33 @@ import { ZERO_BD, factoryContract, ADDRESS_ZERO, ONE_BD } from './helpers'
 
 const WBNB_ADDRESS = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
 const BUSD_WBNB_PAIR = '0xe58f66ff94ddd41ce62c2e8624c2a441405342d5' // replaced USDC, created 1282680
-// const DAI_WBNB_PAIR = '0xa478c2975ab1ea89e8196811f51a7b7ade33eb11' // @todo: need change, created block 10042267
+const DAI_WBNB_PAIR = '0xc7465f6fe2ef6f97a82fffb290f4b695a5c349d4' // created block 1733370
 const USDT_WBNB_PAIR = '0x8b05b8320565c18e085b13754b2b2e3b9eb5ce69' // created block 1282483
 
 export function getBnbPriceInUSD(): BigDecimal {
   // fetch eth prices for each stablecoin
-  // let daiPair = null // dai is token0, disabled for no big liquidity
+  let daiPair = Pair.load(DAI_WBNB_PAIR) // dai is token0, disabled for no big liquidity
   let busdPair = Pair.load(BUSD_WBNB_PAIR) // usdc is token0
   let usdtPair = Pair.load(USDT_WBNB_PAIR) // usdt is token1
 
   // all 3 have been created
   // Disabled for no BNB/DAI Pair
-  // if (daiPair !== null && busdPair !== null && usdtPair !== null) {
-  //   let totalLiquidityETH = daiPair.reserve1.plus(busdPair.reserve1).plus(usdtPair.reserve0)
-  //   let daiWeight = daiPair.reserve1.div(totalLiquidityETH)
-  //   let usdcWeight = busdPair.reserve1.div(totalLiquidityETH)
-  //   let usdtWeight = usdtPair.reserve0.div(totalLiquidityETH)
-  //   return daiPair.token0Price
-  //     .times(daiWeight)
-  //     .plus(busdPair.token0Price.times(usdcWeight))
-  //     .plus(usdtPair.token1Price.times(usdtWeight))
-  //   // dai and USDC have been created
-  // } else 
+  if (daiPair !== null && busdPair !== null && usdtPair !== null) {
+    // 具体看池子是哪个是 BNB 哪个是稳定币
+    let totalLiquidityETH = daiPair.reserve1.plus(busdPair.reserve0).plus(usdtPair.reserve1)
+    let daiWeight = daiPair.reserve1.div(totalLiquidityETH)
+    let usdcWeight = busdPair.reserve0.div(totalLiquidityETH)
+    let usdtWeight = usdtPair.reserve1.div(totalLiquidityETH)
+    return daiPair.token0Price
+      .times(daiWeight)
+      .plus(busdPair.token0Price.times(usdcWeight))
+      .plus(usdtPair.token1Price.times(usdtWeight))
+    // dai and USDC have been created
+  } else 
   if (usdtPair !== null && busdPair !== null) {
-    let totalLiquidityETH = usdtPair.reserve1.plus(busdPair.reserve1)
+    let totalLiquidityETH = usdtPair.reserve1.plus(busdPair.reserve0)
     let daiWeight = usdtPair.reserve1.div(totalLiquidityETH)
-    let usdcWeight = busdPair.reserve1.div(totalLiquidityETH)
+    let usdcWeight = busdPair.reserve0.div(totalLiquidityETH)
     return usdtPair.token0Price.times(daiWeight).plus(busdPair.token0Price.times(usdcWeight))
     // USDC is the only pair so far
   } else if (busdPair !== null) {

@@ -8,9 +8,9 @@ dataSources:
     name: Factory
     network: "56"
     source:
-      address: '0x2Ce81910A61a15b1360c57267319A3F474521D2a'
+      address: '0x2Ce81910A61a15b1360c57267319A3F474521D2a' #换 Factory 合约记得换这个
       abi: Factory
-      startBlock: 1243524
+      startBlock: 1243524 #换合约记得换这个
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
