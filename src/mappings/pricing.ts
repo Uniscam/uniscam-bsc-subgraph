@@ -4,7 +4,7 @@ import { BigDecimal, Address, BigInt } from '@graphprotocol/graph-ts/index'
 import { ZERO_BD, factoryContract, ADDRESS_ZERO, ONE_BD } from './helpers'
 
 const WBNB_ADDRESS = '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c'
-const BUSD_WBNB_PAIR = '0xe58f66ff94ddd41ce62c2e8624c2a441405342d5' // replaced USDC, created 1282680
+const BUSD_WBNB_PAIR = '0xf210C01541AF93635F06B5C9DB0f5d6C3E256FA7' // replaced USDC, created 1282680
 const DAI_WBNB_PAIR = '0xc7465f6fe2ef6f97a82fffb290f4b695a5c349d4' // created block 1733370
 const USDT_WBNB_PAIR = '0x8b05b8320565c18e085b13754b2b2e3b9eb5ce69' // created block 1282483
 
