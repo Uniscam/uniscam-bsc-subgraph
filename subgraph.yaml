@@ -8,7 +8,7 @@ dataSources:
     name: Factory
     network: "56"
     source:
-      address: '0x2Ce81910A61a15b1360c57267319A3F474521D2a' #换 Factory 合约记得换这个
+      address: '0xfFf951ca2Ef9A8fc8F51A0DFcF7E11B81F3383d2' #换 Factory 合约记得换这个
       abi: Factory
       startBlock: 1243524 #换合约记得换这个
     mapping:
