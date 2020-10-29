@@ -1,16 +1,16 @@
 specVersion: 0.0.3
-description: Uniswap is a decentralized protocol for automated token exchange on Ethereum.
-repository: https://github.com/Uniswap/uniswap-v2-subgraph
+description: Uniscam is a decentralized protocol for automated token exchange on Ethereum And BSC.
+repository: https://github.com/Andoromeda-Foundation/uniscam-bsc-subgraph
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: Factory
-    network: "56"
+    network: "56" # 部署到 BSCGraph 改为 mainnet
     source:
       address: '0xfFf951ca2Ef9A8fc8F51A0DFcF7E11B81F3383d2' #换 Factory 合约记得换这个
       abi: Factory
-      startBlock: 1243524 #换合约记得换这个
+      startBlock: 1557372 #换合约记得换这个
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
@@ -34,7 +34,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: Pair
-    network: "56"
+    network: "56" # 部署到 BSCGraph 改为 mainnet
     source:
       abi: Pair
     mapping:
