@@ -53,6 +53,8 @@ export function updatePairDayData(event: EthereumEvent): PairDayData {
   pairDayData.totalSupply = pair.totalSupply
   pairDayData.reserve0 = pair.reserve0
   pairDayData.reserve1 = pair.reserve1
+  pairDayData.b0 = pair.b0
+  pairDayData.b1 = pair.b1
   pairDayData.reserveUSD = pair.reserveUSD
   pairDayData.dailyTxns = pairDayData.dailyTxns.plus(ONE_BI)
   pairDayData.save()
