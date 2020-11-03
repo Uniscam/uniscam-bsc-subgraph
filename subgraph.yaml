@@ -6,7 +6,7 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: Factory
-    network: "56" # 部署到 BSCGraph 改为 mainnet
+    network: mainnet # BSCGraph 改为 mainnet
     source:
       address: '0x56171094a15B8caC4314C0F8930100B939503bd9' #换 Factory 合约记得换这个
       abi: Factory
@@ -34,7 +34,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: Pair
-    network: "56" # 部署到 BSCGraph 改为 mainnet
+    network: mainnet # 部署到 BSCGraph 改为 mainnet
     source:
       abi: Pair
     mapping:

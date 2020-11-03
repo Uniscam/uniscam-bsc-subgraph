@@ -143,19 +143,6 @@
   },
   {
     "inputs": [],
-    "name": "migrator",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "pairCodeHash",
     "outputs": [
       {
@@ -189,19 +176,6 @@
       }
     ],
     "name": "setFeeToSetter",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_migrator",
-        "type": "address"
-      }
-    ],
-    "name": "setMigrator",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

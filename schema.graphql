@@ -63,9 +63,6 @@ type Pair @entity {
   token1: Token!
   reserve0: BigDecimal!
   reserve1: BigDecimal!
-  # bX = reserveX + reserveX in YToken Pool
-  b0: BigDecimal!
-  b1: BigDecimal!
   totalSupply: BigDecimal!
 
   # derived liquidity
@@ -121,9 +118,6 @@ type LiquidityPositionSnapshot @entity {
   pair: Pair! # reference to pair
   token0PriceUSD: BigDecimal! # snapshot of token0 price
   token1PriceUSD: BigDecimal! # snapshot of token1 price
-  # bX = reserveX + reserveX in YToken Pool
-  b0: BigDecimal!
-  b1: BigDecimal!
   reserve0: BigDecimal! # snapshot of pair token0 reserves
   reserve1: BigDecimal! # snapshot of pair token1 reserves
   reserveUSD: BigDecimal! # snapshot of pair reserves in USD
@@ -245,10 +239,6 @@ type PairHourData @entity {
   reserve0: BigDecimal!
   reserve1: BigDecimal!
 
-  # bX = reserveX + reserveX in YToken Pool
-  b0: BigDecimal!
-  b1: BigDecimal!
-
   # derived liquidity
   reserveUSD: BigDecimal!
 
@@ -270,10 +260,6 @@ type PairDayData @entity {
   # reserves
   reserve0: BigDecimal!
   reserve1: BigDecimal!
-
-  # bX = reserveX + reserveX in YToken Pool
-  b0: BigDecimal!
-  b1: BigDecimal!
 
   # total supply for LP historical returns
   totalSupply: BigDecimal!
