@@ -1,4 +1,4 @@
-# Uniscam V2 Subgraph
+c# Uniscam V2 Subgraph
 
 [Uniscam](https://swap.y3d.finance/) is a decentralized protocol for automated token exchange on Ethereum.
 
@@ -29,6 +29,9 @@ Subgraph 只依赖于 Unisave 的 Factory 合约。
 
 > 注意 Factory 地址必须是区分大小写的Checksumed格式。否则可能拿不到数据。
 
+同时你需要创建两个 BNB 与稳定币（BUSD\USDT\DAI等）的交易对，请按照市价来创建。这个会影响到美元计价的功能模块。
+
+创建后，在 `src/mappings/pricing.ts` 更新 BNB 与稳定币交易对的Pair地址。**注意地址要全小写**。否则可能拿不到数据。
 
 ### 合约更新了接口？
 
