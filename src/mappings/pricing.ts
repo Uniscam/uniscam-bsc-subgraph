@@ -7,13 +7,13 @@ const WBNB_ADDRESS = '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c'
 // New Stablecoin pair needed!
 const BUSD_WBNB_PAIR = '0x50aba2cb5c6cc9c6396485a8c21c1722d210cf5a' // replaced USDC, created 1591387
 // const DAI_WBNB_PAIR = '0xc7465f6fe2ef6f97a82fffb290f4b695a5c349d4' // created block 1733370
-// const USDT_WBNB_PAIR = '0x6d2b4465f00375ae5b9a3f67ac60821414399910' // created block 1587531
+const USDT_WBNB_PAIR = '0x6d09d1344b50dc452946234633b3bc85cf3d191f' // created block 1587531
 
 export function getBnbPriceInUSD(): BigDecimal {
   // fetch eth prices for each stablecoin
   // let daiPair = Pair.load(DAI_WBNB_PAIR) // dai is token0, disabled for no big liquidity
   let busdPair = Pair.load(BUSD_WBNB_PAIR) // usdc is token0
-  // let usdtPair = Pair.load(USDT_WBNB_PAIR) // usdt is token1
+  let usdtPair = Pair.load(USDT_WBNB_PAIR) // usdt is token1
 
   // all 3 have been created
   // Disabled for no BNB/DAI Pair
@@ -29,13 +29,13 @@ export function getBnbPriceInUSD(): BigDecimal {
   //     .plus(usdtPair.token0Price.times(usdtWeight))
   //   // dai and USDC have been created
   // } else 
-  // if (usdtPair !== null && busdPair !== null) {
-  //   let totalLiquidityETH = usdtPair.reserve1.plus(busdPair.reserve0)
-  //   let usdtWeight = usdtPair.reserve1.div(totalLiquidityETH)
-  //   let usdcWeight = busdPair.reserve0.div(totalLiquidityETH)
-  //   return usdtPair.token0Price.times(usdtWeight).plus(busdPair.token1Price.times(usdcWeight))
-  //   // USDC is the only pair so far
-  // } else 
+  if (usdtPair !== null && busdPair !== null) {
+    let totalLiquidityETH = usdtPair.reserve1.plus(busdPair.reserve0)
+    let usdtWeight = usdtPair.reserve1.div(totalLiquidityETH)
+    let usdcWeight = busdPair.reserve0.div(totalLiquidityETH)
+    return usdtPair.token0Price.times(usdtWeight).plus(busdPair.token1Price.times(usdcWeight))
+    // USDC is the only pair so far
+  } else 
   if (busdPair !== null) {
     return busdPair.token0Price
   } else {
