@@ -585,16 +585,18 @@ export function handleDummyBurn(event: DummyMint): void {
 
 export function handleDeposited0Updated(event: Deposited0Updated): void {
   let pair = Pair.load(event.address.toHex())
+  let token0 = Token.load(pair.token0)
 
-  pair.deposit0 = event.params.deposited.toBigDecimal()
+  pair.deposit0 = convertTokenToDecimal(event.params.deposited, token0.decimals)
 
   pair.save()
 }
 
 export function handleDeposited1Updated(event: Deposited1Updated): void {
   let pair = Pair.load(event.address.toHex())
+  let token1 = Token.load(pair.token1)
 
-  pair.deposit1 = event.params.deposited.toBigDecimal()
+  pair.deposit1 = convertTokenToDecimal(event.params.deposited, token1.decimals)
 
   pair.save()
 }
