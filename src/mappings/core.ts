@@ -14,7 +14,7 @@ import {
   Swap as SwapEvent,
   Bundle
 } from '../types/schema'
-import { Pair as PairContract, Mint, Burn, Swap, Transfer, Sync } from '../types/templates/Pair/Pair'
+import { Pair as PairContract, Mint, Burn, Swap, Transfer, Sync, DummyMint, FeeUpdated, Deposited0Updated, Deposited1Updated } from '../types/templates/Pair/Pair'
 import { updatePairDayData, updateTokenDayData, updateUniswapDayData, updatePairHourData } from './dayUpdates'
 import { getBnbPriceInUSD, findEthPerToken, getTrackedVolumeUSD, getTrackedLiquidityUSD } from './pricing'
 import {
@@ -545,4 +545,58 @@ export function handleSwap(event: Swap): void {
     amount1Total.times(token1.derivedETH as BigDecimal).times(bundle.ethPrice)
   )
   token1DayData.save()
+}
+
+export function handleFeeUpdated(event: FeeUpdated): void {
+  let pair = Pair.load(event.address.toHex())
+
+  pair.fee = event.params.fee;
+
+  pair.save();
+}
+
+export function handleDummyMint(event: DummyMint): void {
+  let pair = Pair.load(event.address.toHex())
+  let token0 = Token.load(pair.token0)
+  let token1 = Token.load(pair.token1)
+
+  let dummy0Amount = convertTokenToDecimal(event.params.amount0, token0.decimals)
+  let dummy1Amount = convertTokenToDecimal(event.params.amount1, token1.decimals)
+
+  pair.dummy0 = pair.dummy0.plus(dummy0Amount);
+  pair.dummy1 = pair.dummy1.plus(dummy1Amount);
+
+  pair.save()
+}
+
+export function handleDummyBurn(event: DummyMint): void {
+  let pair = Pair.load(event.address.toHex())
+  let token0 = Token.load(pair.token0)
+  let token1 = Token.load(pair.token1)
+
+  let dummy0Amount = convertTokenToDecimal(event.params.amount0, token0.decimals)
+  let dummy1Amount = convertTokenToDecimal(event.params.amount1, token1.decimals)
+
+  pair.dummy0 = pair.dummy0.minus(dummy0Amount);
+  pair.dummy1 = pair.dummy1.minus(dummy1Amount);
+
+  pair.save()
+}
+
+export function handleDeposited0Updated(event: Deposited0Updated): void {
+  let pair = Pair.load(event.address.toHex())
+  let token0 = Token.load(pair.token0)
+
+  pair.deposit0 = convertTokenToDecimal(event.params.deposited, token0.decimals)
+
+  pair.save()
+}
+
+export function handleDeposited1Updated(event: Deposited1Updated): void {
+  let pair = Pair.load(event.address.toHex())
+  let token1 = Token.load(pair.token1)
+
+  pair.deposit1 = convertTokenToDecimal(event.params.deposited, token1.decimals)
+
+  pair.save()
 }
