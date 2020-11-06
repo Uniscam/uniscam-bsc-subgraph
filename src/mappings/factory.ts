@@ -102,6 +102,11 @@ export function handleNewPair(event: PairCreated): void {
   pair.untrackedVolumeUSD = ZERO_BD
   pair.token0Price = ZERO_BD
   pair.token1Price = ZERO_BD
+  pair.fee = 3
+  pair.deposit0 = ZERO_BD
+  pair.deposit1 = ZERO_BD
+  pair.dummy0 = ZERO_BD
+  pair.dummy1 = ZERO_BD
 
   // create the tracked contract based on the template
   PairTemplate.create(event.params.pair)
