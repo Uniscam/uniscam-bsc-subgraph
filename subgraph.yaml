@@ -8,9 +8,9 @@ dataSources:
     name: Factory
     network: mainnet # BSCGraph 改为 mainnet
     source:
-      address: '0x89B7E1F35e45Dcc3cEE92d412fbeac841C0BD8d3' #换 Factory 合约记得换这个
+      address: '0xdF2F2c9fdbE6BDE8a3D8dC64f831600fD298965F' #换 Factory 合约记得换这个
       abi: Factory
-      startBlock: 1970838 #换合约记得换这个
+      startBlock: 1996594 #换合约记得换这个
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
