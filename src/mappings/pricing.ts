@@ -37,7 +37,7 @@ export function getBnbPriceInUSD(): BigDecimal {
     // USDC is the only pair so far
   } else
   if (busdPair !== null) {
-    return busdPair.token0Price
+    return busdPair.token1Price
   } else {
     return ZERO_BD
   }
