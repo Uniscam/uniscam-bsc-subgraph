@@ -227,8 +227,8 @@ export function handleSync(event: Sync): void {
   token0.totalLiquidity = token0.totalLiquidity.minus(pair.reserve0)
   token1.totalLiquidity = token1.totalLiquidity.minus(pair.reserve1)
 
-  pair.reserve0 = convertTokenToDecimal(event.params.reserve0, token0.decimals).minus(pair.dummy0)
-  pair.reserve1 = convertTokenToDecimal(event.params.reserve1, token1.decimals).minus(pair.dummy1)
+  pair.reserve0 = convertTokenToDecimal(event.params.reserve0, token0.decimals)
+  pair.reserve1 = convertTokenToDecimal(event.params.reserve1, token1.decimals)
 
   if (pair.reserve1.notEqual(ZERO_BD)) pair.token0Price = pair.reserve0.div(pair.reserve1)
   else pair.token0Price = ZERO_BD
