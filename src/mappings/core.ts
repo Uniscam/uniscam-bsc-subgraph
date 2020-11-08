@@ -227,8 +227,8 @@ export function handleSync(event: Sync): void {
   token0.totalLiquidity = token0.totalLiquidity.minus(pair.reserve0)
   token1.totalLiquidity = token1.totalLiquidity.minus(pair.reserve1)
 
-  pair.reserve0 = convertTokenToDecimal(event.params.reserve0, token0.decimals)
-  pair.reserve1 = convertTokenToDecimal(event.params.reserve1, token1.decimals)
+  pair.reserve0 = convertTokenToDecimal(event.params.reserve0, token0.decimals).minus(pair.dummy0)
+  pair.reserve1 = convertTokenToDecimal(event.params.reserve1, token1.decimals).minus(pair.dummy1)
 
   if (pair.reserve1.notEqual(ZERO_BD)) pair.token0Price = pair.reserve0.div(pair.reserve1)
   else pair.token0Price = ZERO_BD
@@ -250,7 +250,7 @@ export function handleSync(event: Sync): void {
   // get tracked liquidity - will be 0 if neither is in whitelist
   let trackedLiquidityETH: BigDecimal
   if (bundle.ethPrice.notEqual(ZERO_BD)) {
-    trackedLiquidityETH = getTrackedLiquidityUSD(pair.reserve0.minus(pair.dummy0), token0 as Token, pair.reserve1.minus(pair.dummy1), token1 as Token).div(
+    trackedLiquidityETH = getTrackedLiquidityUSD(pair.reserve0, token0 as Token, pair.reserve1, token1 as Token).div(
       bundle.ethPrice
     )
   } else {
@@ -259,9 +259,9 @@ export function handleSync(event: Sync): void {
 
   // use derived amounts within pair
   pair.trackedReserveETH = trackedLiquidityETH
-  pair.reserveETH = pair.reserve0.minus(pair.dummy0)
+  pair.reserveETH = pair.reserve0
     .times(token0.derivedETH as BigDecimal)
-    .plus(pair.reserve1.minus(pair.dummy1).times(token1.derivedETH as BigDecimal))
+    .plus(pair.reserve1.times(token1.derivedETH as BigDecimal))
   pair.reserveUSD = pair.reserveETH.times(bundle.ethPrice)
 
   // use tracked amounts globally
