@@ -224,8 +224,8 @@ export function handleSync(event: Sync): void {
   uniswap.totalLiquidityETH = uniswap.totalLiquidityETH.minus(pair.trackedReserveETH as BigDecimal)
 
   // reset token total liquidity amounts
-  token0.totalLiquidity = token0.totalLiquidity.minus(pair.reserve0).minus(pair.dummy0)
-  token1.totalLiquidity = token1.totalLiquidity.minus(pair.reserve1).minus(pair.dummy1)
+  token0.totalLiquidity = token0.totalLiquidity.minus(pair.reserve0)
+  token1.totalLiquidity = token1.totalLiquidity.minus(pair.reserve1)
 
   pair.reserve0 = convertTokenToDecimal(event.params.reserve0, token0.decimals)
   pair.reserve1 = convertTokenToDecimal(event.params.reserve1, token1.decimals)
