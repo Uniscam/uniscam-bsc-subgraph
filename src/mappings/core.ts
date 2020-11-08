@@ -259,9 +259,9 @@ export function handleSync(event: Sync): void {
 
   // use derived amounts within pair
   pair.trackedReserveETH = trackedLiquidityETH
-  pair.reserveETH = pair.reserve0
+  pair.reserveETH = pair.reserve0.minus(pair.dummy0)
     .times(token0.derivedETH as BigDecimal)
-    .plus(pair.reserve1.times(token1.derivedETH as BigDecimal))
+    .plus(pair.reserve1.minus(pair.dummy1).times(token1.derivedETH as BigDecimal))
   pair.reserveUSD = pair.reserveETH.times(bundle.ethPrice)
 
   // use tracked amounts globally
