@@ -235,6 +235,9 @@ export function handleSync(event: Sync): void {
   if (pair.reserve0.notEqual(ZERO_BD)) pair.token1Price = pair.reserve1.div(pair.reserve0)
   else pair.token1Price = ZERO_BD
 
+  pair.reserve0 = pair.reserve0.minus(pair.dummy0)
+  pair.reserve1 = pair.reserve1.minus(pair.dummy1)
+
   pair.save()
 
   // update ETH price now that reserves could have changed
