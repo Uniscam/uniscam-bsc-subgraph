@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  test:
+  deploy:
     strategy:
       matrix:
         node: ['12.x']
@@ -33,5 +33,5 @@ jobs:
             ${{ matrix.os }}-yarn-
 
       - run: yarn
-
+      - run: yarn codegen
       - run: yarn deploy
