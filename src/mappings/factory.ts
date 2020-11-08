@@ -92,6 +92,8 @@ export function handleNewPair(event: PairCreated): void {
   pair.txCount = ZERO_BI
   pair.reserve0 = ZERO_BD
   pair.reserve1 = ZERO_BD
+  pair.reserveWithDummy0 = ZERO_BD
+  pair.reserveWithDummy1 = ZERO_BD
   pair.trackedReserveETH = ZERO_BD
   pair.reserveETH = ZERO_BD
   pair.reserveUSD = ZERO_BD

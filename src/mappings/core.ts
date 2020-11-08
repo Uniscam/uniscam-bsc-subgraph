@@ -227,16 +227,16 @@ export function handleSync(event: Sync): void {
   token0.totalLiquidity = token0.totalLiquidity.minus(pair.reserve0)
   token1.totalLiquidity = token1.totalLiquidity.minus(pair.reserve1)
 
-  pair.reserve0 = convertTokenToDecimal(event.params.reserve0, token0.decimals)
-  pair.reserve1 = convertTokenToDecimal(event.params.reserve1, token1.decimals)
+  pair.reserveWithDummy0 = convertTokenToDecimal(event.params.reserve0, token0.decimals)
+  pair.reserveWithDummy1 = convertTokenToDecimal(event.params.reserve1, token1.decimals)
 
-  if (pair.reserve1.notEqual(ZERO_BD)) pair.token0Price = pair.reserve0.div(pair.reserve1)
+  if (pair.reserveWithDummy1.notEqual(ZERO_BD)) pair.token0Price = pair.reserveWithDummy0.div(pair.reserveWithDummy1)
   else pair.token0Price = ZERO_BD
-  if (pair.reserve0.notEqual(ZERO_BD)) pair.token1Price = pair.reserve1.div(pair.reserve0)
+  if (pair.reserveWithDummy0.notEqual(ZERO_BD)) pair.token1Price = pair.reserveWithDummy1.div(pair.reserveWithDummy0)
   else pair.token1Price = ZERO_BD
 
-  pair.reserve0 = pair.reserve0.minus(pair.dummy0)
-  pair.reserve1 = pair.reserve1.minus(pair.dummy1)
+  pair.reserve0 = pair.reserveWithDummy0.minus(pair.dummy0)
+  pair.reserve1 = pair.reserveWithDummy1.minus(pair.dummy1)
 
   pair.save()
 

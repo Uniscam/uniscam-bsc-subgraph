@@ -63,6 +63,8 @@ type Pair @entity {
   token1: Token!
   reserve0: BigDecimal!
   reserve1: BigDecimal!
+  reserveWithDummy0: BigDecimal!
+  reserveWithDummy1: BigDecimal!
   totalSupply: BigDecimal!
   fee: Int!
   deposit0: BigDecimal!
