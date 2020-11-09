@@ -568,6 +568,8 @@ export function handleDummyMint(event: DummyMint): void {
 
   pair.dummy0 = pair.dummy0.plus(dummy0Amount);
   pair.dummy1 = pair.dummy1.plus(dummy1Amount);
+  pair.reserveWithDummy0 = pair.reserve0.plus(pair.dummy0)
+  pair.reserveWithDummy1 = pair.reserve1.plus(pair.dummy1)
 
   pair.save()
 }
@@ -582,6 +584,8 @@ export function handleDummyBurn(event: DummyMint): void {
 
   pair.dummy0 = pair.dummy0.minus(dummy0Amount);
   pair.dummy1 = pair.dummy1.minus(dummy1Amount);
+  pair.reserveWithDummy0 = pair.reserve0.minus(pair.dummy0)
+  pair.reserveWithDummy1 = pair.reserve1.minus(pair.dummy1)
 
   pair.save()
 }
