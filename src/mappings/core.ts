@@ -523,6 +523,9 @@ export function handleDummyMint(event: DummyMint): void {
   let pair = Pair.load(event.address.toHex())
   let token0 = Token.load(pair.token0)
   let token1 = Token.load(pair.token1)
+  let uniswap = UniswapFactory.load(FACTORY_ADDRESS)
+
+  uniswap.totalLiquidityETH = uniswap.totalLiquidityETH.minus(pair.trackedReserveETH as BigDecimal)
 
   let dummy0Amount = convertTokenToDecimal(event.params.amount0, token0.decimals)
   let dummy1Amount = convertTokenToDecimal(event.params.amount1, token1.decimals)
@@ -534,13 +537,16 @@ export function handleDummyMint(event: DummyMint): void {
 
   pair.save()
 
-  postProcess(pair, token0, token1, UniswapFactory.load(FACTORY_ADDRESS))
+  postProcess(pair, token0, token1, uniswap)
 }
 
 export function handleDummyBurn(event: DummyMint): void {
   let pair = Pair.load(event.address.toHex())
   let token0 = Token.load(pair.token0)
   let token1 = Token.load(pair.token1)
+  let uniswap = UniswapFactory.load(FACTORY_ADDRESS)
+
+  uniswap.totalLiquidityETH = uniswap.totalLiquidityETH.minus(pair.trackedReserveETH as BigDecimal)
 
   let dummy0Amount = convertTokenToDecimal(event.params.amount0, token0.decimals)
   let dummy1Amount = convertTokenToDecimal(event.params.amount1, token1.decimals)
@@ -552,7 +558,7 @@ export function handleDummyBurn(event: DummyMint): void {
 
   pair.save()
 
-  postProcess(pair, token0, token1, UniswapFactory.load(FACTORY_ADDRESS))
+  postProcess(pair, token0, token1, uniswap)
 }
 
 export function handleDeposited0Updated(event: Deposited0Updated): void {
