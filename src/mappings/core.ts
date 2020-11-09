@@ -240,46 +240,7 @@ export function handleSync(event: Sync): void {
 
   pair.save()
 
-  // update ETH price now that reserves could have changed
-  let bundle = Bundle.load('1')
-  bundle.ethPrice = getBnbPriceInUSD()
-  bundle.save()
-
-  token0.derivedETH = findEthPerToken(token0 as Token)
-  token1.derivedETH = findEthPerToken(token1 as Token)
-  token0.save()
-  token1.save()
-
-  // get tracked liquidity - will be 0 if neither is in whitelist
-  let trackedLiquidityETH: BigDecimal
-  if (bundle.ethPrice.notEqual(ZERO_BD)) {
-    trackedLiquidityETH = getTrackedLiquidityUSD(pair.reserve0, token0 as Token, pair.reserve1, token1 as Token).div(
-      bundle.ethPrice
-    )
-  } else {
-    trackedLiquidityETH = ZERO_BD
-  }
-
-  // use derived amounts within pair
-  pair.trackedReserveETH = trackedLiquidityETH
-  pair.reserveETH = pair.reserve0
-    .times(token0.derivedETH as BigDecimal)
-    .plus(pair.reserve1.times(token1.derivedETH as BigDecimal))
-  pair.reserveUSD = pair.reserveETH.times(bundle.ethPrice)
-
-  // use tracked amounts globally
-  uniswap.totalLiquidityETH = uniswap.totalLiquidityETH.plus(trackedLiquidityETH)
-  uniswap.totalLiquidityUSD = uniswap.totalLiquidityETH.times(bundle.ethPrice)
-
-  // now correctly set liquidity amounts for each token
-  token0.totalLiquidity = token0.totalLiquidity.plus(pair.reserve0)
-  token1.totalLiquidity = token1.totalLiquidity.plus(pair.reserve1)
-
-  // save entities
-  pair.save()
-  uniswap.save()
-  token0.save()
-  token1.save()
+  postProcess(pair, token0, token1, uniswap)
 }
 
 export function handleMint(event: Mint): void {
@@ -572,6 +533,8 @@ export function handleDummyMint(event: DummyMint): void {
   pair.reserve1 = pair.reserveWithDummy1.minus(pair.dummy1)
 
   pair.save()
+
+  postProcess(pair, token0, token1, UniswapFactory.load(FACTORY_ADDRESS))
 }
 
 export function handleDummyBurn(event: DummyMint): void {
@@ -588,6 +551,8 @@ export function handleDummyBurn(event: DummyMint): void {
   pair.reserve1 = pair.reserveWithDummy1.minus(pair.dummy1)
 
   pair.save()
+
+  postProcess(pair, token0, token1, UniswapFactory.load(FACTORY_ADDRESS))
 }
 
 export function handleDeposited0Updated(event: Deposited0Updated): void {
@@ -606,4 +571,47 @@ export function handleDeposited1Updated(event: Deposited1Updated): void {
   pair.deposit1 = convertTokenToDecimal(event.params.deposited, token1.decimals)
 
   pair.save()
+}
+
+function postProcess(pair: Pair | null, token0: Token| null, token1: Token | null, uniswap: UniswapFactory | null): void {
+  // update ETH price now that reserves could have changed
+  let bundle = Bundle.load('1')
+  bundle.ethPrice = getBnbPriceInUSD()
+  bundle.save()
+
+  token0.derivedETH = findEthPerToken(token0 as Token)
+  token1.derivedETH = findEthPerToken(token1 as Token)
+  token0.save()
+  token1.save()
+
+  // get tracked liquidity - will be 0 if neither is in whitelist
+  let trackedLiquidityETH: BigDecimal
+  if (bundle.ethPrice.notEqual(ZERO_BD)) {
+    trackedLiquidityETH = getTrackedLiquidityUSD(pair.reserve0, token0 as Token, pair.reserve1, token1 as Token).div(
+      bundle.ethPrice
+    )
+  } else {
+    trackedLiquidityETH = ZERO_BD
+  }
+
+  // use derived amounts within pair
+  pair.trackedReserveETH = trackedLiquidityETH
+  pair.reserveETH = pair.reserve0
+    .times(token0.derivedETH as BigDecimal)
+    .plus(pair.reserve1.times(token1.derivedETH as BigDecimal))
+  pair.reserveUSD = pair.reserveETH.times(bundle.ethPrice)
+
+  // use tracked amounts globally
+  uniswap.totalLiquidityETH = uniswap.totalLiquidityETH.plus(trackedLiquidityETH)
+  uniswap.totalLiquidityUSD = uniswap.totalLiquidityETH.times(bundle.ethPrice)
+
+  // now correctly set liquidity amounts for each token
+  token0.totalLiquidity = token0.totalLiquidity.plus(pair.reserve0)
+  token1.totalLiquidity = token1.totalLiquidity.plus(pair.reserve1)
+
+  // save entities
+  pair.save()
+  uniswap.save()
+  token0.save()
+  token1.save()
 }
