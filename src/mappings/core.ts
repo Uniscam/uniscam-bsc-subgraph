@@ -1,4 +1,4 @@
-import { PairHourData } from './../types/schema'
+import { PairHourData, YToken } from './../types/schema'
 /* eslint-disable prefer-const */
 import { BigInt, BigDecimal, store, Address } from '@graphprotocol/graph-ts'
 import {
@@ -26,7 +26,10 @@ import {
   createLiquidityPosition,
   ZERO_BD,
   BI_18,
-  createLiquiditySnapshot
+  createLiquiditySnapshot,
+  fetchTokenSymbol,
+  fetchTokenName,
+  fetchTokenDecimals
 } from './helpers'
 
 function isCompleteMint(mintId: string): boolean {
@@ -623,14 +626,35 @@ function postProcess(pair: Pair | null, token0: Token| null, token1: Token | nul
 }
 
 export function handleY0Updated(event: Y0Updated): void {
+  saveYToken(event.params.token)
+
   let pair = Pair.load(event.address.toHex())
   pair.yToken0 = event.params.token.toHex()
   pair.save()
 }
 export function handleY1Updated(event: Y1Updated): void {
+  saveYToken(event.params.token)
+
   let pair = Pair.load(event.address.toHex())
   pair.yToken1 = event.params.token.toHex()
   pair.save()
+}
+function saveYToken(address: Address): void {
+  let yToken = YToken.load(address.toHex())
+  if (yToken)
+    return
+
+  yToken = new YToken(address.toHex())
+  yToken.symbol = fetchTokenSymbol(address)
+  yToken.name = fetchTokenName(address)
+  let decimals = fetchTokenDecimals(address)
+
+  // bail if we couldn't figure out the decimals
+  if (decimals === null) {
+    return
+  }
+  yToken.decimals = decimals
+  yToken.save()
 }
 
 export function handleRedepositRatio0Updated(event: RedepositRatio0Updated): void {

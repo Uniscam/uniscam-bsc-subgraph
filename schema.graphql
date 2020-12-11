@@ -53,6 +53,12 @@ type Token @entity {
   pairBase: [Pair!]! @derivedFrom(field: "token0")
   pairQuote: [Pair!]! @derivedFrom(field: "token1")
 }
+type YToken @entity {
+  id: ID!
+  symbol: String!
+  name: String!
+  decimals: BigInt!
+}
 
 type Pair @entity {
   # pair address
@@ -61,8 +67,8 @@ type Pair @entity {
   # mirrored from the smart contract
   token0: Token!
   token1: Token!
-  yToken0: Token
-  yToken1: Token
+  yToken0: YToken
+  yToken1: YToken
   reserve0: BigDecimal!
   reserve1: BigDecimal!
   reserveWithDummy0: BigDecimal!
