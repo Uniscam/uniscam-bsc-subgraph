@@ -9,7 +9,7 @@
     "create-local": "graph create uniscam/swap --node http://127.0.0.1:8020",
     "create-bscgraph": "graph create uniscam/swap-test2 --node https://api.bscgraph.org/deploy/",
     "deploy-local": "graph deploy uniscam/swap --debug --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
-    "deploy": "graph deploy uniscam/swap-test2 --ipfs https://ipfs.infura.io:5001/ --node https://api.bscgraph.org/deploy/ --debug",
+    "deploy": "graph deploy uniscam/swap-test2 --ipfs https://ipfs.infura.io:5001/ --node https://api.bscgraph.org/deploy/",
     "deploy-staging": "graph deploy $THE_GRAPH_GITHUB_USER/$THE_GRAPH_SUBGRAPH_NAME /Uniswap --ipfs https://api.staging.thegraph.com/ipfs/ --node https://api.staging.thegraph.com/deploy/",
     "watch-local": "graph deploy uniscam/swap --watch --debug --node http://127.0.0.1:8020/ --ipfs http://localhost:5001"
   },
