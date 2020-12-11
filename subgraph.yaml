@@ -71,3 +71,11 @@ templates:
           handler: handleDeposited0Updated
         - event: Deposited1Updated(uint256)
           handler: handleDeposited1Updated
+        - event: RedepositRatio0Updated(uint16)
+          handler: handleRedepositRatio0Updated
+        - event: RedepositRatio1Updated(uint16)
+          handler: handleRedepositRatio1Updated
+        - event: Y0Updated(indexed address)
+          handler: handleY0Updated
+        - event: Y1Updated(indexed address)
+          handler: handleY1Updated

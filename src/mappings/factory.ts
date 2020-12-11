@@ -86,6 +86,8 @@ export function handleNewPair(event: PairCreated): void {
   let pair = new Pair(event.params.pair.toHexString()) as Pair
   pair.token0 = token0.id
   pair.token1 = token1.id
+  pair.yToken0 = null
+  pair.yToken1 = null
   pair.liquidityProviderCount = ZERO_BI
   pair.createdAtTimestamp = event.block.timestamp
   pair.createdAtBlockNumber = event.block.number
@@ -107,6 +109,8 @@ export function handleNewPair(event: PairCreated): void {
   pair.fee = 3
   pair.deposit0 = ZERO_BD
   pair.deposit1 = ZERO_BD
+  pair.redepositRatio0 = 0
+  pair.redepositRatio1 = 0
   pair.dummy0 = ZERO_BD
   pair.dummy1 = ZERO_BD
 
